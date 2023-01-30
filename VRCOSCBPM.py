@@ -15,7 +15,7 @@ ip = str(config['VRCOSCBPM']['ip'])
 port = int(config['VRCOSCBPM']['port'])
 client_id = 'e2f617eb2d3c4f2c9e5b5a2db0bb0b39'
 client_secret = '4bdf77ecbe43482ca4fbdd1971e3b884'
-redirect_uri = str(config['VRCOSCBPM']['redirect_uri'])
+redirect_uri = 'https://github.com/ChocolateEinstein/VRCOSCBPM#spotify-authorization'
 
 animation_bpm = int(config['VRCOSCBPM']['animation_bpm'])
 avatar_param_path = str(config['VRCOSCBPM']['avatar_parameter_path'])
