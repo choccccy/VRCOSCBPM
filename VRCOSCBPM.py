@@ -31,10 +31,11 @@ spotify = tk.Spotify(app_token)
 # Authorization
 
 tekore_cfg = 'tekore.cfg'
+scope = tk.scope.user_read_playback_state
 
 if exists(tekore_cfg) == False:   # Generate User Token
     conf = (client_id, client_secret, redirect_uri)
-    token = tk.prompt_for_user_token(*conf, scope=tk.scope.every)
+    token = tk.prompt_for_user_token(*conf, scope)
     
     input('Press any button to build tekore.cfg')
     tk.config_to_file(tekore_cfg, conf + (token.refresh_token,))
