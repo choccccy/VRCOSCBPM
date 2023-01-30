@@ -1,3 +1,19 @@
 
 tekore.cfg
 tekore.cfg
+VRCOSCBPM.spec
+build/VRCOSCBPM/xref-VRCOSCBPM.html
+build/VRCOSCBPM/warn-VRCOSCBPM.txt
+build/VRCOSCBPM/VRCOSCBPM.pkg
+build/VRCOSCBPM/VRCOSCBPM.exe.manifest
+build/VRCOSCBPM/PYZ-00.toc
+build/VRCOSCBPM/PYZ-00.pyz
+build/VRCOSCBPM/PKG-00.toc
+build/VRCOSCBPM/localpycs/struct.pyc
+build/VRCOSCBPM/localpycs/pyimod04_pywin32.pyc
+build/VRCOSCBPM/localpycs/pyimod03_ctypes.pyc
+build/VRCOSCBPM/localpycs/pyimod02_importers.pyc
+build/VRCOSCBPM/localpycs/pyimod01_archive.pyc
+build/VRCOSCBPM/EXE-00.toc
+build/VRCOSCBPM/base_library.zip
+build/VRCOSCBPM/Analysis-00.toc
