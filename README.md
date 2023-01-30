@@ -34,7 +34,7 @@ When you first launch, this will appear:
 
 and then your browser will open to an authorization page:
 
-![image](https://user-images.githubusercontent.com/12983495/215369782-f934b40d-cd88-47e2-80de-fb076657cf42.png)
+![image](https://user-images.githubusercontent.com/12983495/215377109-a2491567-2fd1-4ad9-b742-fa5e368e0201.png)
 
 hit "Authorize", and you'll be redirected right here! now, copy the very long URL in your address bar back into the program, and hit enter:
 
