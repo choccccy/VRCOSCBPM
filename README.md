@@ -1,5 +1,5 @@
 # VRCOSCBPM
-Getting the BPM of the music you're listening to on Spotify, and sending it to VRChat over OSC with Python.
+Get the BPM of the music you're listening to on Spotify, and sending it to VRChat over OSC with Python.
 
 Python 3 required! Get it from [python.org](https://www.python.org/downloads/) and save yourself some trouble.
 
