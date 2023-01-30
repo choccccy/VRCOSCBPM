@@ -11,15 +11,20 @@ At that point, it should be good to go, and you shouldn't need to reauthorize.
 
 # Configuration
 The vrcoscbpm.cfg file contains configuration parameters:
+
   • IP
+
   • Port
-    Where OSC messages will be sent to. "127.0.0.1:9000" is the default VRChat is listening to.
+
+Where OSC messages will be sent to. "127.0.0.1:9000" is the default VRChat is listening to.
   
   • avatar_parameter_path
-    The path OSC messages will be sent upon. "/avatar/parameters/BPM" will send a float between 0 and 1 to a parameter called "BPM" on your avatar.
+
+The path OSC messages will be sent upon. "/avatar/parameters/BPM" will send a float between 0 and 1 to a parameter called "BPM" on your avatar.
 
   • animation_bpm
-    The BPM, tempo, etc, of the animation you are trying to drive.
+
+The BPM, tempo, etc, of the animation you are trying to drive.
 
 # Spotify Authorization
 When you first launch, this will appear:
