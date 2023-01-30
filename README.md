@@ -21,12 +21,6 @@ The vrcoscbpm.cfg file contains configuration parameters:
   • animation_bpm
     The BPM, tempo, etc, of the animation you are trying to drive.
 
-# Animation BPM
-Yada yada explain animation bpm
-
-# VRChat OSC configuration
-yada yada explain how to reset OSC config for avatars
-
 # Spotify Authorization
 When you first launch, this will appear:
 
