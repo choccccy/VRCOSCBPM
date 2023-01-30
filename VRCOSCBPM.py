@@ -11,13 +11,14 @@ from pythonosc.udp_client import SimpleUDPClient
 config = configparser.ConfigParser()
 config.read('vrcoscbpm.cfg')
 
-IP = str(config['VRCOSCBPM']['IP'])
-Port = int(config['VRCOSCBPM']['Port'])
-client_id = str(config['VRCOSCBPM']['client_id'])
-client_secret = str(config['VRCOSCBPM']['client_secret'])
+ip = str(config['VRCOSCBPM']['ip'])
+port = int(config['VRCOSCBPM']['port'])
+client_id = 'e2f617eb2d3c4f2c9e5b5a2db0bb0b39'
+client_secret = '4bdf77ecbe43482ca4fbdd1971e3b884'
 redirect_uri = str(config['VRCOSCBPM']['redirect_uri'])
 
-AnimationBPM = int(config['VRCOSCBPM']['AnimationBPM'])
+animation_bpm = int(config['VRCOSCBPM']['animation_bpm'])
+avatar_param_path = str(config['VRCOSCBPM']['avatar_parameter_path'])
 
 # =======================
 # Tekore Setup
@@ -29,18 +30,18 @@ spotify = tk.Spotify(app_token)
 # =======================
 # Authorization
 
-TekoreCFG = 'tekore.cfg'
+tekore_cfg = 'tekore.cfg'
 
-if exists(TekoreCFG) == False:   # Generate User Token
+if exists(tekore_cfg) == False:   # Generate User Token
     conf = (client_id, client_secret, redirect_uri)
     token = tk.prompt_for_user_token(*conf, scope=tk.scope.every)
     
     input('Press any button to build tekore.cfg')
-    tk.config_to_file(TekoreCFG, conf + (token.refresh_token,))
+    tk.config_to_file(tekore_cfg, conf + (token.refresh_token,))
     input('Built tekore.cfg. Press any button to continue')
     print('\n' * 3)
 
-conf = tk.config_from_file(TekoreCFG, return_refresh=True)
+conf = tk.config_from_file(tekore_cfg, return_refresh=True)
 user_token = tk.refresh_user_token(*conf[:2], conf[3])   
     
 spotify.token = user_token
@@ -48,52 +49,55 @@ spotify.token = user_token
 # =======================
 # Functions
 
-def SendOSC(ip, port, AvatarParamPath, Variable):
+def SendOSC(ip, port, path, variable):
     client = SimpleUDPClient(ip, port)  # Create client
     
-    client.send_message(AvatarParamPath, Variable)   # Send float message
+    client.send_message(path, variable)   # Send float message
     
-    print('Sent ' + str(Variable) + ' to ' + AvatarParamPath + ' at ' + str(IP) + ':' + str(Port))
+    print('Sent ' + str(variable) + ' to ' + path + ' at ' + str(ip) + ':' + str(port))
+
+def GetTrack(): # Get the User's currently playing Spotify track
+    track = spotify.playback()
+    if IsPlaying(track) is False:
+        return False
+    return track.item
 
 def IsPlaying(playback): # Check if 'playback' is a valid track
     if playback is None:
         return False
+    if playback.item.type == 'episode':
+        return False
     return True
 
-def GetTrack(): # Get the User's currently playing Spotify track
-    Track = spotify.playback()
-    if IsPlaying(Track) is False:
-        return False
-    return Track.item
+def TrackTempo(track): # Get The tempo of a track
+    track_tempo = spotify.track_audio_features(track.id).tempo
+    return track_tempo
 
-def TrackTempo(Track): # Get The tempo of a track
-    TrackTempo = spotify.track_audio_features(Track.id).tempo
-    return TrackTempo
-
-def DivideBPM(RawBPM): # Turn a Tempo into a fraction of 'AnimationBPM'
-    while RawBPM >= AnimationBPM:
-        RawBPM /= 2
+def DivideBPM(raw_bpm): # Turn a Tempo into a fraction of 'animation_bpm'
+    while raw_bpm >= animation_bpm:
+        raw_bpm /= 2
     
-    DividedBPM = RawBPM / AnimationBPM
+    divided_bpm = raw_bpm / animation_bpm
     
-    return DividedBPM
+    return divided_bpm
 
 def main():
     while True:
-        CurrentTrack = GetTrack()
+        current_track = GetTrack()
         
         print(datetime.datetime.now())
-        if CurrentTrack is False:
+        if current_track is False:
             print('N/a (User Not Playing)')
-            SendOSC(IP, Port, "/avatar/parameters/BPM", 0.0)
+            SendOSC(ip, port, avatar_param_path, 0.0)
+            
         else:
-            CurrentTrackTempo = TrackTempo(CurrentTrack)
+            current_track_tempo = TrackTempo(current_track)
             
-            OSCBPM = DivideBPM(CurrentTrackTempo)
+            osc_bpm = DivideBPM(current_track_tempo)
             
-            print('now playing: ' + CurrentTrack.name)
-            print('BPM: ' + str(CurrentTrackTempo))
-            SendOSC(IP, Port, "/avatar/parameters/BPM", OSCBPM)
+            print('now playing: ' + current_track.name)
+            print('BPM: ' + str(current_track_tempo))
+            SendOSC(ip, port, avatar_param_path, osc_bpm)
         
         time.sleep(2)
         print('\n' * 3)
