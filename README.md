@@ -3,7 +3,7 @@ Get the BPM of the music you're listening to on Spotify, and sending it to VRCha
 
 [Download](https://github.com/ChocolateEinstein/VRCOSCBPM/releases/download/v1.0.0/VRCOSCBPM.zip)
 
-VRCOSCBPM ISN'T ABLE TO YOUR SPOTIFY ACCOUNT YET.
+VRCOSCBPM ISN'T ABLE TO ACCESS YOUR SPOTIFY ACCOUNT, PENDING SPOTIFY GRANTING SAID ACCESS. PLEASE BE PATIENT WHILE THE SPOTIFY DEVELOPERS GRANT ACCESS.
 
 Upon first launch, you're going to need to authorize VRCOSCBPM to access your Spotify account! This is done by hitting the "authorize" button in your browser, THEN copy-pasting the URL it takes you to back into the app. 
 
