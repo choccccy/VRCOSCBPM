@@ -34,6 +34,10 @@ tekore_cfg = 'tekore.cfg'
 scope = tk.scope.user_read_playback_state
 
 if exists(tekore_cfg) == False:   # Generate User Token
+    print('User needs to allow VRCOSCBPM to access their Spotify account in order to get current song BPM')
+    input('Press any button to continue')
+    print('\n' * 3)
+    
     conf = (client_id, client_secret, redirect_uri)
     token = tk.prompt_for_user_token(*conf, scope)
     
