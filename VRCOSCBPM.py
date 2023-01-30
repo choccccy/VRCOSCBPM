@@ -40,6 +40,7 @@ if exists(tekore_cfg) == False:   # Generate User Token
     
     conf = (client_id, client_secret, redirect_uri)
     token = tk.prompt_for_user_token(*conf, scope)
+    print('\n' * 3)
     
     input('Press any button to build tekore.cfg')
     tk.config_to_file(tekore_cfg, conf + (token.refresh_token,))
