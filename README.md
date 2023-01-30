@@ -34,7 +34,7 @@ and then your browser will open to an authorization page:
 
 hit "Authorize", and you'll be redirected right here! now, copy the very long URL in your address bar back into the program, and hit enter:
 
-![image](https://user-images.githubusercontent.com/12983495/215370155-de10facb-95e0-4d3b-909a-294cd636a33f.png)
+![image](https://user-images.githubusercontent.com/12983495/215372053-18d11b99-9501-45f9-b7d3-3a2991bc5eb3.png)
 
 then it any button to build the tekore configuration, and when built, hit it again to start the program:
 
