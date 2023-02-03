@@ -6,6 +6,15 @@ import tekore as tk
 from pythonosc.udp_client import SimpleUDPClient
 
 # =======================
+# Load Spotify credentials
+
+spotify_credentials = configparser.ConfigParser()
+spotify_credentials.read('spotify_credentials.cfg')
+
+client_id = str(spotify_credentials['VRCOSCBPM']['ip'])
+client_secret = str(spotify_credentials['VRCOSCBPM']['ip'])
+
+# =======================
 # Load Configuration
 
 config = configparser.ConfigParser()
@@ -13,8 +22,6 @@ config.read('vrcoscbpm.cfg')
 
 ip = str(config['VRCOSCBPM']['ip'])
 port = int(config['VRCOSCBPM']['port'])
-client_id = 'e2f617eb2d3c4f2c9e5b5a2db0bb0b39'
-client_secret = '4bdf77ecbe43482ca4fbdd1971e3b884'
 redirect_uri = 'https://github.com/ChocolateEinstein/VRCOSCBPM#spotify-authorization'
 
 animation_bpm = int(config['VRCOSCBPM']['animation_bpm'])
