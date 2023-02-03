@@ -11,8 +11,8 @@ from pythonosc.udp_client import SimpleUDPClient
 spotify_credentials = configparser.ConfigParser()
 spotify_credentials.read('spotify_credentials.cfg')
 
-client_id = str(spotify_credentials['VRCOSCBPM']['ip'])
-client_secret = str(spotify_credentials['VRCOSCBPM']['ip'])
+client_id = str(spotify_credentials['spotify_credentials']['client_id'])
+client_secret = str(spotify_credentials['spotify_credentials']['client_secret'])
 
 # =======================
 # Load Configuration
@@ -26,6 +26,8 @@ redirect_uri = 'https://github.com/ChocolateEinstein/VRCOSCBPM#spotify-authoriza
 
 animation_bpm = int(config['VRCOSCBPM']['animation_bpm'])
 avatar_param_path = str(config['VRCOSCBPM']['avatar_parameter_path'])
+
+refresh_rate = int(config['VRCOSCBPM']['refresh_rate'])
 
 # =======================
 # Tekore Setup
@@ -62,31 +64,31 @@ spotify.token = user_token
 # =======================
 # Functions
 
-def SendOSC(ip, port, path, variable):
+def send_osc(ip, port, path, variable):
     client = SimpleUDPClient(ip, port)  # Create client
     
     client.send_message(path, variable)   # Send float message
     
     print('Sent ' + str(variable) + ' to ' + path + ' at ' + str(ip) + ':' + str(port))
 
-def GetTrack(): # Get the User's currently playing Spotify track
+def get_track(): # Get the User's currently playing Spotify track
     track = spotify.playback()
-    if IsPlaying(track) is False:
+    if is_playing(track) is False:
         return False
     return track.item
 
-def IsPlaying(playback): # Check if 'playback' is a valid track
+def is_playing(playback): # Check if 'playback' is a valid track
     if playback is None:
         return False
-    if playback.item.type == 'episode':
+    if playback.item.type != 'track':
         return False
     return True
 
-def TrackTempo(track): # Get The tempo of a track
+def track_tempo(track): # Get The tempo of a track
     track_tempo = spotify.track_audio_features(track.id).tempo
     return track_tempo
 
-def DivideBPM(raw_bpm): # Turn a Tempo into a fraction of 'animation_bpm'
+def divide_bpm(raw_bpm): # Turn a Tempo into a fraction of 'animation_bpm'
     while raw_bpm >= animation_bpm:
         raw_bpm /= 2
     
@@ -95,25 +97,29 @@ def DivideBPM(raw_bpm): # Turn a Tempo into a fraction of 'animation_bpm'
     return divided_bpm
 
 def main():
-    while True:
-        current_track = GetTrack()
+    current_track = get_track()
+    
+    print(datetime.datetime.now())
+    if current_track is False:
+        print('N/a (User Not Playing)')
+        send_osc(ip, port, avatar_param_path, 0.0)
         
-        print(datetime.datetime.now())
-        if current_track is False:
-            print('N/a (User Not Playing)')
-            SendOSC(ip, port, avatar_param_path, 0.0)
-            
-        else:
-            current_track_tempo = TrackTempo(current_track)
-            
-            osc_bpm = DivideBPM(current_track_tempo)
-            
+    else:
+        try:
+            current_track_tempo = track_tempo(current_track)
+        
+            osc_bpm = divide_bpm(current_track_tempo)
+        
             print('now playing: ' + current_track.name)
             print('BPM: ' + str(current_track_tempo))
-            SendOSC(ip, port, avatar_param_path, osc_bpm)
-        
-        time.sleep(2)
-        print('\n' * 3)
+            send_osc(ip, port, avatar_param_path, osc_bpm)
+
+        except:
+            print('SOME ERROR OCCOURED!')
+    
+    time.sleep(refresh_rate)
+    print('\n' * 3)
 
 if __name__ == "__main__":
-    main() 
+    while True:
+        main() 
